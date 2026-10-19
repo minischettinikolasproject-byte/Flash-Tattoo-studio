@@ -153,7 +153,7 @@ else if(x==='del'&&DB){try{await DB.doc('requests/'+k).delete()}catch(er){}}
 else if(x==='send'){S.err='';if(!DB||!UID){S.err='Invio non disponibile in questa vista: riprova dopo aver effettuato l’accesso.';draw();return}
 try{await DB.collection('requests').add({svc:R.svc,day:R.day,hr:R.hr,name:R.name.trim(),email:R.email.trim(),phone:R.phone.trim(),status:'nuova',at:Date.now()});S.R={svc:'',day:'',hr:'',name:'',email:'',phone:''};hap([30,60,30]);S.tab='ok';draw()}catch(er){S.err='Non sono riuscito a inviare la richiesta. Riprova tra poco.';draw()}}});
 document.addEventListener('input',e=>{const f=e.target.dataset.f;if(!f)return;S.R[f]=e.target.value;const b=$('#send');if(b)b.disabled=!valid()});
-const SB_URL='xbvjjzuldnkcpmgmzvps',SB_KEY='sb_publishable_ZmbJQYvAxAnFc3jhUkCjZg_98Mj6GJ5';
+const SB_URL='https://xbvjjzuldnkcpmgmzvps.supabase.co',SB_KEY='sb_publishable_ZmbJQYvAxAnFc3jHuKCjZg_98Mj6GJ5';
 const sb=supabase.createClient(SB_URL,SB_KEY);
 const DBA={collection(n){let ord=null;const o={orderBy(f,d){ord=[f,d];return o},
 onSnapshot(cb,er){const load=async()=>{let q=sb.from(n).select('*');if(ord)q=q.order(ord[0],{ascending:ord[1]==='asc'});const r=await q;if(r.error){if(er)er(r.error);return}cb({docs:r.data.map(x=>({id:x.id,data:()=>x}))})};load();sb.channel('rt-'+n+Math.random()).on('postgres_changes',{event:'*',schema:'public',table:n},load).subscribe()},
