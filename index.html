@@ -153,7 +153,7 @@ else if(x==='del'&&DB){try{await DB.doc('requests/'+k).delete()}catch(er){}}
 else if(x==='send'){S.err='';if(!DB||!UID){S.err='Invio non disponibile in questa vista: riprova dopo aver effettuato l’accesso.';draw();return}
 try{await DB.collection('requests').add({svc:R.svc,day:R.day,hr:R.hr,name:R.name.trim(),email:R.email.trim(),phone:R.phone.trim(),status:'nuova',at:Date.now()});S.R={svc:'',day:'',hr:'',name:'',email:'',phone:''};hap([30,60,30]);S.tab='ok';draw()}catch(er){S.err='Non sono riuscito a inviare la richiesta. Riprova tra poco.';draw()}}});
 document.addEventListener('input',e=>{const f=e.target.dataset.f;if(!f)return;S.R[f]=e.target.value;const b=$('#send');if(b)b.disabled=!valid()});
-const SB_URL='https://xbvjjzuldnkcpmgmzvps.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInI5cCI6IkpXVC.eyJpcCI6IjzdXhBhYmFzZS5jcyIsImVzdDMOTMWMwMjc4Mjc4MjcsV4cCI6jEwNzY4MjAyN4zMD.D6_dtb8Sq-dXPrhwdeJjR0VaSkKyb1i0alpM_4CakKY';
+const SB_URL='https://xbvjjzuldnkcpmgmzvps.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhidmpqenVsZG5rY3BtZ216dnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MDYwMjcsImV4cCI6MjEwNzk4MjAyN30.D6_dtb8Sq-dXPrhwdeJjR0VaSkKyb1i0alpM_4CakKY';
 const DBA={collection(n){let ord=null;const o={orderBy(f,d){ord=[f,d];return o},
 onSnapshot(cb,er){const load=async()=>{let q=sb.from(n).select('*');if(ord)q=q.order(ord[0],{ascending:ord[1]==='asc'});const r=await q;if(r.error){if(er)er(r.error);return}cb({docs:r.data.map(x=>({id:x.id,data:()=>x}))})};load();sb.channel('rt-'+n+Math.random()).on('postgres_changes',{event:'*',schema:'public',table:n},load).subscribe()},
 async add(d){const r=await sb.from(n).insert(Object.assign({id:crypto.randomUUID()},d));if(r.error)throw r.error}};return o},
